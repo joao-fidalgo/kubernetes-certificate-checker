@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 import pymsteams
 
 CLUSTER_NAME = os.getenv("CLUSTER_NAME", "changeme")
-DAYS_UNTIL = os.getenv("DAYS_UNTIL", 3)
+DAYS_UNTIL = int(os.getenv("DAYS_UNTIL", 3))
 WEBHOOK_URL = os.getenv("WEBHOOK_URL", "changeme")
 
 KUBERNETES_API_URL = os.environ["KUBERNETES_PORT_443_TCP_ADDR"]
@@ -96,7 +96,7 @@ def main():
     secret_name = get_certificate_secret_name(certificates[i])
     expiration_date = get_expiration_date(get_tls_crt(get_secret(namespace, secret_name)))
     
-    if expiration_date < datetime.now() + timedelta(days = DAYS_UNTIL):
+    if expiration_date != None and expiration_date < datetime.now() + timedelta(days = DAYS_UNTIL):
       sendAlert(namespace, secret_name, expiration_date)
 
 if __name__ == "__main__":
