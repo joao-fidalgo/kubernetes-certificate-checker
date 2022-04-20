@@ -20,7 +20,7 @@ def sendAlert(namespace, secret_name, expiration_date):
   card.summary("Alert")
   
   section = pymsteams.cardsection()
-  section.title("Certificate expiring in {days_until} days".format(days_until=DAYS_UNTIL))
+  section.title("Certificate expiring in less than {days_until} days".format(days_until=DAYS_UNTIL))
   section.addFact("Cluster", CLUSTER_NAME)
   section.addFact("Namespace", namespace)
   section.addFact("Secret Name", secret_name)
